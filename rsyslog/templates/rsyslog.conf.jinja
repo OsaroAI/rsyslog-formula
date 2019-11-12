@@ -61,7 +61,7 @@ $WorkDirectory {{ config.get('workdirectory', '/var/spool/rsyslog') }}
 # Use traditional timestamp format.
 # To enable high precision timestamps, comment out the following line.
 #
-$ActionFileDefaultTemplate {{ config.get('template', 'RSYSLOG_TraditionalFileFormat') }}
+#$ActionFileDefaultTemplate {{ config.get('template', 'RSYSLOG_TraditionalFileFormat') }}
 
 {% if config.repeated_msg_reduction|default(false) -%}
 # Filter duplicated messages
