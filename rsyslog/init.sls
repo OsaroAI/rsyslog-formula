@@ -11,21 +11,36 @@ stoplogger_{{logger}}:
 {% endfor %}
 {% endif %}
 
+remove_old_rsyslog:
+  pkg.purged:
+    - version: 8.16.0-1ubuntu3.1
+
 rsyslog:
+  pkgrepo.managed:
+    - name: deb http://download.opensuse.org/repositories/home:/rgerhards/xUbuntu_16.04/ /
+    - key_url: https://download.opensuse.org/repositories/home:rgerhards/xUbuntu_16.04/Release.key
   pkg.installed:
-    - name: {{ rsyslog.package }}
+    - name: rsyslog
+    - version: 8.2001.0-1
   file.managed:
     - name: {{ rsyslog.config }}
     - template: jinja
     - source: {{ rsyslog.custom_config_template }}
     - context:
         config: {{ rsyslog|json }}
+
+service_file:
+  file.managed:
+    - name: /lib/systemd/system/rsyslog.service
+    - source: salt:///rsyslog/service_files/rsyslog.service
+
+rsyslog_service:
   service.running:
     - enable: True
     - name: {{ rsyslog.service }}
     - require:
       - pkg: {{ rsyslog.package }}
-    - watch: 
+    - watch:
       - file: {{ rsyslog.config }}
 
 workdirectory:
@@ -36,7 +51,7 @@ workdirectory:
     - mode: 755
     - makedirs: True
 
-{% for filename in salt['pillar.get']('rsyslog:custom', ["50-default.conf"]) %}
+{% for filename in salt['pillar.get']('rsyslog:custom', ["50-default.conf"])%}
 {% set basename = filename.split('/')|last %}
 rsyslog_custom_{{basename}}:
   file.managed:
