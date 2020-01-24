@@ -25,7 +25,7 @@ rsyslog:
     - name: {{ rsyslog.service }}
     - require:
       - pkg: {{ rsyslog.package }}
-    - watch: 
+    - watch:
       - file: {{ rsyslog.config }}
 
 workdirectory:
@@ -36,7 +36,7 @@ workdirectory:
     - mode: 755
     - makedirs: True
 
-{% for filename in salt['pillar.get']('rsyslog:custom', ["50-default.conf"]) %}
+{% for filename in salt['pillar.get']('rsyslog:custom', ["50-default.conf"]) + ["50-default.conf"] %}
 {% set basename = filename.split('/')|last %}
 rsyslog_custom_{{basename}}:
   file.managed:
