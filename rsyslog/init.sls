@@ -12,8 +12,17 @@ stoplogger_{{logger}}:
 {% endif %}
 
 rsyslog:
+  pkg.purged:
+    - version: 8.16.0-1ubuntu3.1
+  pkgrepo.managed:
+    - name: deb http://download.opensuse.org/repositories/home:/rgerhards/xUbuntu_16.04/ /
+    - key_url: https://download.opensuse.org/repositories/home:rgerhards/xUbuntu_16.04/Release.key
   pkg.installed:
-    - name: {{ rsyslog.package }}
+    - name: rsyslog
+    - version: 8.2001.0-1
+  file.managed:
+    - name: /lib/systemd/system/rsyslog.service
+    - source:
   file.managed:
     - name: {{ rsyslog.config }}
     - template: jinja
