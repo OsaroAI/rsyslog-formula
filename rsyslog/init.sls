@@ -11,6 +11,11 @@ stoplogger_{{logger}}:
 {% endfor %}
 {% endif %}
 
+service_file:
+  file.managed:
+    - name: /lib/systemd/system/rsyslog.service
+    - source: salt:///rsyslog/service_files/rsyslog.service
+
 rsyslog:
   pkg.purged:
     - version: 8.16.0-1ubuntu3.1
@@ -20,16 +25,12 @@ rsyslog:
   pkg.installed:
     - name: rsyslog
     - version: 8.2001.0-1
-  file:
-    - managed
-    - names:
-      - /lib/systemd/system/rsyslog.service:
-        - source: salt:///rsyslog/service_files/rsyslog.service
-      - {{ rsyslog.config }}:
-        - template: jinja
-        - source: {{ rsyslog.custom_config_template }}
-        - context:
-            config: {{ rsyslog|json }}
+  file.managed:
+    - name: {{ rsyslog.config }}
+    - template: jinja
+    - source: {{ rsyslog.custom_config_template }}
+    - context:
+        config: {{ rsyslog|json }}
   service.running:
     - enable: True
     - name: {{ rsyslog.service }}
