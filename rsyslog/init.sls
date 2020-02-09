@@ -23,9 +23,9 @@ rsyslog:
   file:
     - managed
     - names:
-      - /lib/systemd/system/rsyslog.service
+      - /lib/systemd/system/rsyslog.service:
         - source: salt:///rsyslog/service_files/rsyslog.service
-      - {{ rsyslog.config }}
+      - {{ rsyslog.config }}:
         - template: jinja
         - source: {{ rsyslog.custom_config_template }}
         - context:
