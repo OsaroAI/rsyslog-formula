@@ -20,7 +20,7 @@ rsyslog:
     - name: deb http://download.opensuse.org/repositories/home:/rgerhards/xUbuntu_16.04/ /
     - key_url: https://download.opensuse.org/repositories/home:rgerhards/xUbuntu_16.04/Release.key
   pkg.installed:
-    - name: rsyslog-omhttp
+    - name: rsyslog
     - version: 8.2001.0-1
   file.managed:
     - name: {{ rsyslog.config }}
@@ -28,6 +28,11 @@ rsyslog:
     - source: {{ rsyslog.custom_config_template }}
     - context:
         config: {{ rsyslog|json }}
+
+rsyslog_omhttp
+  pkg.installed:
+    - name: rsyslog-omhttp
+    - version: 8.2001.0-1
 
 service_file:
   file.managed:
@@ -37,6 +42,7 @@ service_file:
 rsyslog_service:
   service.running:
     - enable: True
+    - reload: True
     - name: {{ rsyslog.service }}
     - require:
       - pkg: {{ rsyslog.package }}
