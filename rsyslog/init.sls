@@ -20,17 +20,16 @@ rsyslog:
   pkg.installed:
     - name: rsyslog
     - version: 8.2001.0-1
-  systemd_service:
-    file.managed:
-      - name: /lib/systemd/system/rsyslog.service
-      - source: salt:///rsyslog/service_files/rsyslog.service
-  rsyslog_config:
-    file.managed:
-      - name: {{ rsyslog.config }}
-      - template: jinja
-      - source: {{ rsyslog.custom_config_template }}
-      - context:
-          config: {{ rsyslog|json }}
+  file:
+    - managed
+    - names:
+      - /lib/systemd/system/rsyslog.service
+        - source: salt:///rsyslog/service_files/rsyslog.service
+      - {{ rsyslog.config }}
+        - template: jinja
+        - source: {{ rsyslog.custom_config_template }}
+        - context:
+            config: {{ rsyslog|json }}
   service.running:
     - enable: True
     - name: {{ rsyslog.service }}
