@@ -22,7 +22,7 @@ rsyslog:
     - version: 8.2001.0-1
   file.managed:
     - name: /lib/systemd/system/rsyslog.service
-    - source:
+    - source: salt:///rsyslog/service_files/rsyslog.service
   file.managed:
     - name: {{ rsyslog.config }}
     - template: jinja
