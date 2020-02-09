@@ -11,17 +11,11 @@ stoplogger_{{logger}}:
 {% endfor %}
 {% endif %}
 
-service_file:
-  file.managed:
-    - name: /lib/systemd/system/rsyslog.service
-    - source: salt:///rsyslog/service_files/rsyslog.service
-
 remove_old_rsyslog:
   pkg.purged:
     - version: 8.16.0-1ubuntu3.1
 
 rsyslog:
-
   pkgrepo.managed:
     - name: deb http://download.opensuse.org/repositories/home:/rgerhards/xUbuntu_16.04/ /
     - key_url: https://download.opensuse.org/repositories/home:rgerhards/xUbuntu_16.04/Release.key
@@ -34,6 +28,13 @@ rsyslog:
     - source: {{ rsyslog.custom_config_template }}
     - context:
         config: {{ rsyslog|json }}
+
+service_file:
+  file.managed:
+    - name: /lib/systemd/system/rsyslog.service
+    - source: salt:///rsyslog/service_files/rsyslog.service
+
+rsyslog_service:
   service.running:
     - enable: True
     - name: {{ rsyslog.service }}
