@@ -18,7 +18,7 @@ remove_old_rsyslog:
 rsyslog:
   pkgrepo.managed:
     - name: deb http://download.opensuse.org/repositories/home:/rgerhards/xUbuntu_16.04/ /
-    - key_url: https://download.opensuse.org/repositories/home:rgerhards/xUbuntu_16.04/Release.key
+    - key_url: salt:///rsyslog/keys/release.key
   pkg.installed:
     - name: rsyslog
     - version: 8.2001.0-1
