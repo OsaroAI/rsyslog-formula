@@ -29,7 +29,7 @@ rsyslog:
     - context:
         config: {{ rsyslog|json }}
 
-rsyslog_omhttp
+rsyslog_omhttp:
   pkg.installed:
     - name: rsyslog-omhttp
     - version: 8.2001.0-1
