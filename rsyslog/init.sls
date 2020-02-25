@@ -16,11 +16,11 @@ remove_old_rsyslog:
     - version: 8.16.0-1ubuntu3.1
 
 rsyslog:
-  - require:
-    - sls: osaro.apt.packagecloud
   pkg.installed:
     - name: rsyslog
     - version: 8.2001.0-1
+    - require:
+        - osaro.apt.packagecloud
   file.managed:
     - name: {{ rsyslog.config }}
     - template: jinja
