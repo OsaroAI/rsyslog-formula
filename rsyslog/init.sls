@@ -17,7 +17,7 @@ remove_old_rsyslog:
 
 rsyslog:
   - require:
-    - osaro.apt.packagecloud
+    - sls: osaro.apt.packagecloud
   pkg.installed:
     - name: rsyslog
     - version: 8.2001.0-1
