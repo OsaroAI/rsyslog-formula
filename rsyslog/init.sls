@@ -19,8 +19,6 @@ rsyslog:
   pkg.installed:
     - name: rsyslog
     - version: 8.2001.0-1
-    - require:
-        - sls: osaro.apt.packagecloud
   file.managed:
     - name: {{ rsyslog.config }}
     - template: jinja
