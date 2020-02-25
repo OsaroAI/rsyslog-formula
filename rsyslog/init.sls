@@ -20,7 +20,7 @@ rsyslog:
     - name: rsyslog
     - version: 8.2001.0-1
     - require:
-        - osaro.apt.packagecloud
+        - sls: osaro.apt.packagecloud
   file.managed:
     - name: {{ rsyslog.config }}
     - template: jinja
