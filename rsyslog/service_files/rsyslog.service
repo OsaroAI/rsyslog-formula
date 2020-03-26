@@ -6,7 +6,7 @@ Documentation=https://www.rsyslog.com/doc/
 
 [Service]
 Type=notify
-ExecStart=/usr/sbin/rsyslogd -n -iNONE
+ExecStart=/usr/sbin/rsyslogd -n -i /var/run/rsyslog.pid
 StandardOutput=null
 Restart=on-failure
 
