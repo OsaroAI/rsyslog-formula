@@ -45,6 +45,7 @@ rsyslog_service:
       - pkg: {{ rsyslog.package }}
     - watch:
       - file: {{ rsyslog.config }}
+      - file: /etc/rsyslog.d/*
 
 workdirectory:
   file.directory:
