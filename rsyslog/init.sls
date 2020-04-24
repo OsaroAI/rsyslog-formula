@@ -39,7 +39,6 @@ service_file:
 rsyslog_service:
   service.running:
     - enable: True
-    - reload: True
     - name: {{ rsyslog.service }}
     - require:
       - pkg: {{ rsyslog.package }}
