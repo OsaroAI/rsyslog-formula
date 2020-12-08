@@ -12,11 +12,13 @@ stoplogger_{{logger}}:
 {% endif %}
 
 
-remove_old_rsyslogs:
+remove_rsyslog_8_16_0:
   pkg.purged:
     - name: rsyslog
     - version: 8.16.0-1ubuntu3.1
-  pkg.purged:
+
+remove_rsyslog_8_2001_0:
+ pkg.purged:
     - name: rsyslog
     - version: 8.2001.0-1
   require:
@@ -26,7 +28,6 @@ remove_old_omhttp:
   pkg.purged:
     - name: rsyslog-omhttp
     - version: 8.2001.0-1
-
 
 rsyslog:
   pkg.installed:
@@ -39,7 +40,8 @@ rsyslog:
     - context:
         config: {{ rsyslog|json }}
   require:
-    - remove_old_rsyslogs
+    - remove_rsyslog_8_16_0
+    - remove_rsyslog_8_2001_0
 
 rsyslog_mmjsonparse:
   pkg.installed:
