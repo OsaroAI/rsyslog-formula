@@ -59,6 +59,7 @@ rsyslog_service:
     - name: {{ rsyslog.service }}
     - require:
       - pkg: {{ rsyslog.package }}
+      - pkg: rsyslog-mmjsonparse
     - watch:
       - file: {{ rsyslog.config }}
       - file: /etc/rsyslog.d/*
