@@ -21,8 +21,8 @@ remove_rsyslog_8_2001_0:
   pkg.purged:
     - name: rsyslog
     - version: 8.2001.0-1
-  require:
-    - remove_old_omhttp
+    - require:
+      - remove_old_omhttp
 
 remove_old_omhttp:
   pkg.purged:
@@ -33,22 +33,22 @@ rsyslog:
   pkg.installed:
     - name: rsyslog
     - version: 8.2010.0-0adiscon1xenial1
+    - require:
+      - remove_rsyslog_8_16_0
+      - remove_rsyslog_8_2001_0
   file.managed:
     - name: {{ rsyslog.config }}
     - template: jinja
     - source: {{ rsyslog.custom_config_template }}
     - context:
         config: {{ rsyslog|json }}
-  require:
-    - remove_rsyslog_8_16_0
-    - remove_rsyslog_8_2001_0
 
 rsyslog_mmjsonparse:
   pkg.installed:
     - name: rsyslog-mmjsonparse
     - version: 8.2010.0-0adiscon1xenial1
-  require:
-    - pkg: rsyslog
+    - require:
+      - pkg: rsyslog
 
 service_file:
   file.managed:
