@@ -11,14 +11,31 @@ stoplogger_{{logger}}:
 {% endfor %}
 {% endif %}
 
-remove_old_rsyslog:
+
+remove_rsyslog_8_16_0:
   pkg.purged:
+    - name: rsyslog
     - version: 8.16.0-1ubuntu3.1
+
+remove_rsyslog_8_2001_0:
+  pkg.purged:
+    - name: rsyslog
+    - version: 8.2001.0-1
+    - require:
+      - remove_old_omhttp
+
+remove_old_omhttp:
+  pkg.purged:
+    - name: rsyslog-omhttp
+    - version: 8.2001.0-1
 
 rsyslog:
   pkg.installed:
     - name: rsyslog
-    - version: 8.2001.0-1
+    - version: 8.2010.0-0adiscon1xenial1
+    - require:
+      - remove_rsyslog_8_16_0
+      - remove_rsyslog_8_2001_0
   file.managed:
     - name: {{ rsyslog.config }}
     - template: jinja
@@ -26,10 +43,12 @@ rsyslog:
     - context:
         config: {{ rsyslog|json }}
 
-rsyslog_omhttp:
+rsyslog_mmjsonparse:
   pkg.installed:
-    - name: rsyslog-omhttp
-    - version: 8.2001.0-1
+    - name: rsyslog-mmjsonparse
+    - version: 8.2010.0-0adiscon1xenial1
+    - require:
+      - pkg: rsyslog
 
 service_file:
   file.managed:
@@ -42,6 +61,7 @@ rsyslog_service:
     - name: {{ rsyslog.service }}
     - require:
       - pkg: {{ rsyslog.package }}
+      - rsyslog_mmjsonparse
     - watch:
       - file: {{ rsyslog.config }}
       - file: /etc/rsyslog.d/*
