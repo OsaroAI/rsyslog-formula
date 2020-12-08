@@ -18,7 +18,7 @@ remove_rsyslog_8_16_0:
     - version: 8.16.0-1ubuntu3.1
 
 remove_rsyslog_8_2001_0:
- pkg.purged:
+  pkg.purged:
     - name: rsyslog
     - version: 8.2001.0-1
   require:
