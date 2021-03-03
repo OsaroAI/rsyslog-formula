@@ -55,6 +55,12 @@ service_file:
     - name: /lib/systemd/system/rsyslog.service
     - source: salt:///rsyslog/service_files/rsyslog.service
 
+syslog_symlink:
+  file.symlink:
+    - name: /etc/systemd/system/syslog.service
+    - target: /lib/systemd/system/rsyslog.service
+    - force: True
+
 rsyslog_service:
   service.running:
     - enable: True
@@ -62,6 +68,7 @@ rsyslog_service:
     - require:
       - pkg: {{ rsyslog.package }}
       - rsyslog_mmjsonparse
+      - syslog_symlink
     - watch:
       - file: {{ rsyslog.config }}
       - file: /etc/rsyslog.d/*
