@@ -68,6 +68,7 @@ rsyslog_service:
     - require:
       - pkg: {{ rsyslog.package }}
       - rsyslog_mmjsonparse
+      - syslog_symlink
     - watch:
       - file: {{ rsyslog.config }}
       - file: /etc/rsyslog.d/*
